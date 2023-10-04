@@ -127,6 +127,6 @@ If you find this project useful and would like to show your appreciation, you ca
 Your support is greatly appreciated !
 Thank you for being a part of this project!
 
-Let's Build Web3 for React Native
+Let's Build Web3 with React Native
 
 WAGMI
