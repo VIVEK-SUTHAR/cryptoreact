@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
+import Instructions from "components/Instructions";
 import Address from "components/UI/Address";
 import { sessionParams } from "components/WalletConnectModal";
 import React, { useEffect, type FC } from "react";
@@ -27,6 +28,7 @@ const ConnectWallet: FC<ConnectWalletProps> = ({ navigation }) => {
       justifyContent="center"
       alignItems="center"
     >
+      <Instructions/>
       {isConnected && address ? (
         <Address userAddress={address} />
       ) : (
