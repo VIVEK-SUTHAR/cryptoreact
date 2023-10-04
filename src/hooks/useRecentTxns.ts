@@ -53,7 +53,7 @@ const useEthereumTransactions = () => {
     return () => controller.abort();
   }, [currentAddress]);
 
-  return { transactions, loading, error };
+  return { transactions, loading, error, fetchTransactions };
 };
 
 export default useEthereumTransactions;
