@@ -10,7 +10,6 @@ const SignInWithEth: FC<SignInWithEthProps> = ({ navigation }) => {
   const { provider, address } = useWalletConnectModal();
   const { currentAddress } = useAppState();
 
-  navigation.navigate("Home");
   const signIn = async () => {
     try {
       const signature = await provider?.request({
