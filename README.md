@@ -68,7 +68,7 @@ To run the CryptoReact app locally, follow these steps:
 
 ### The Home Screen :
 
-![Home Screen](https://ik.imagekit.io/4uh8nmwsx/d34bd49d-116f-44d9-9f06-a5184401fd88.jpeg?updatedAt=1696410633340?f-webp)
+![Home Screen](https://ik.imagekit.io/4uh8nmwsx/tr:h-300/d34bd49d-116f-44d9-9f06-a5184401fd88.jpeg?updatedAt=1696410633340)
 
 ## Things one can work
 
