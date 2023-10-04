@@ -66,6 +66,10 @@ To run the CryptoReact app locally, follow these steps:
 
 2. Scan the QR code in your expo go app and you are good to go.
 
+### The Home Screen :
+
+![Home Screen](https://ik.imagekit.io/4uh8nmwsx/d34bd49d-116f-44d9-9f06-a5184401fd88.jpeg?updatedAt=1696410633340?f-webp)
+
 ## Things one can work
 
 - [ ] : Add ENS Resolving/reverse resolve support
