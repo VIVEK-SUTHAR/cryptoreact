@@ -19,10 +19,13 @@ const useLatestBlock = () => {
   };
 
   useEffect(() => {
-    setInterval(() => {
+    const blockInterval = setInterval(() => {
       fetchLatestBlock();
     }, FETCH_BLOCK_INTERVAL);
+    //Clear interval on unmount
+    return () => clearInterval(blockInterval);
   }, []);
+
   return { blockNumber };
 };
 
