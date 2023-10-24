@@ -1,7 +1,13 @@
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import { useEffect, useState } from "react";
-
+import { createPublicClient, http } from "viem";
+import { polygonMumbai, mainnet } from "viem/chains";
 const FETCH_BLOCK_INTERVAL = 10000;
+
+export const Client = createPublicClient({
+  transport: http(),
+  chain: mainnet,
+});
 
 const useLatestBlock = () => {
   const [blockNumber, setblockNumber] = useState(0);
@@ -9,11 +15,13 @@ const useLatestBlock = () => {
 
   const fetchLatestBlock = async () => {
     try {
-      const blockNumber = await provider?.request({
-        method: "eth_blockNumber",
-        params: [],
-      });
-      const intBlockNumber: number = Number(blockNumber);
+      const block = await Client.getBlockNumber();
+
+      // const blockNumber = await provider?.request({
+      //   method: "eth_blockNumber",
+      //   params: [],
+      // });
+      const intBlockNumber: number = Number(block);
       setblockNumber(intBlockNumber);
     } catch (error) {}
   };

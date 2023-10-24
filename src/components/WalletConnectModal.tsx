@@ -5,7 +5,7 @@ import {
 import app from "../../app.json";
 import { APP_DESC, APP_NAME, PROJECT_WEBSITE } from "constants/index";
 import useThemeStore from "store/ThemeStore";
-const projectId = "GRAB_FROM_WC_CLOUD_ANDPASTE_HERE";
+const projectId = "45a6812dbe886b990e2547d329da237b";
 
 const providerMetadata: IProviderMetadata = {
   name: APP_NAME,
