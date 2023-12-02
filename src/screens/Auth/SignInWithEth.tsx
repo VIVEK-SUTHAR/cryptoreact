@@ -1,24 +1,17 @@
 import React, { FC } from "react";
 import { SignInWithEthProps } from "types/navigation";
 import { Box, Text } from "theme";
-import { useWalletConnectModal } from "@walletconnect/modal-react-native";
-import { Button } from "react-native";
+import { Alert, Button } from "react-native";
 import useAppState from "store/AppStore";
 import formatEthAddress from "utils/formatEthAddress";
 
 const SignInWithEth: FC<SignInWithEthProps> = ({ navigation }) => {
-  const { provider, address } = useWalletConnectModal();
+  
   const { currentAddress } = useAppState();
 
   const signIn = async () => {
     try {
-      const signature = await provider?.request({
-        method: "personal_sign",
-        params: [address, "hello"],
-      });
-      if (signature) {
-        navigation.replace("Home");
-      }
+     Alert.alert("Sign In With Eth", "Coming Soon");
     } catch (error) {
       console.log(error);
     }

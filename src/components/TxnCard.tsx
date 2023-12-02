@@ -1,3 +1,4 @@
+import Dai from "icons/Dai";
 import Eth from "icons/Eth";
 import Matic from "icons/Matic";
 import Usdc from "icons/Usdc";
@@ -47,6 +48,9 @@ const getTokenIcon = (assetName: string) => {
       return <Eth height={34} width={34} />;
     case "USDT":
       return <Usdt height={34} width={34} />;
+    case "fDAI":
+    case "DAI":
+      return <Dai height={34} width={34} />;
   }
 };
 

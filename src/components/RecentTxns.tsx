@@ -70,7 +70,7 @@ const RecentTxns = () => {
 };
 
 const ListHeaderComponent = () => (
-  <Text color="primaryCardText">Your recent txns</Text>
+  <Text color="primaryCardText" variant="heading">Your recent txns</Text>
 );
 
 export default RecentTxns;

@@ -1,30 +1,26 @@
-import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import { useEffect, useState } from "react";
+import { formatUnits } from "viem";
+import { useBlockNumber, useNetwork } from "wagmi";
 
 const FETCH_BLOCK_INTERVAL = 10000;
 
 const useLatestBlock = () => {
-  const [blockNumber, setblockNumber] = useState(0);
-  const { provider } = useWalletConnectModal();
-
-  const fetchLatestBlock = async () => {
-    try {
-      const blockNumber = await provider?.request({
-        method: "eth_blockNumber",
-        params: [],
-      });
-      const intBlockNumber: number = Number(blockNumber);
-      setblockNumber(intBlockNumber);
-    } catch (error) {}
-  };
+  const [blockNumber, setblockNumber] = useState("");
+  const network = useNetwork();
+  const { data } = useBlockNumber({
+    chainId: network.chain?.id,
+    watch: true,
+    cacheTime: 2_000,
+  });
 
   useEffect(() => {
-    const blockInterval = setInterval(() => {
-      fetchLatestBlock();
-    }, FETCH_BLOCK_INTERVAL);
+    const blockInterval = setInterval(() => {}, FETCH_BLOCK_INTERVAL);
+    if (data) {
+      setblockNumber(formatUnits(data, 0));
+    }
     //Clear interval on unmount
     return () => clearInterval(blockInterval);
-  }, []);
+  }, [data]);
 
   return { blockNumber };
 };

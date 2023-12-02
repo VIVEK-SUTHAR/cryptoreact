@@ -16,7 +16,8 @@ module.exports = function (api) {
             store: "./src/store",
             utils: "./src/utils",
             theme: "./src/theme",
-            icons:"./src/icons"
+            icons:"./src/icons",
+            providers:"./src/providers",
           },
         },
       ],

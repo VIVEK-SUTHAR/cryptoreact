@@ -1,22 +1,20 @@
-import { useNavigation } from "@react-navigation/native";
-import { useWalletConnectModal } from "@walletconnect/modal-react-native";
+import { useWeb3Modal } from "@web3modal/wagmi-react-native";
 import Instructions from "components/Instructions";
 import Address from "components/UI/Address";
-import { sessionParams } from "components/WalletConnectModal";
 import React, { useEffect, type FC } from "react";
-import { Button } from "react-native";
+import { Alert, Button } from "react-native";
 import useAppState from "store/AppStore";
 import { Box } from "theme";
 import { type ConnectWalletProps } from "types/navigation";
+import { useAccount } from "wagmi";
 
-const ConnectWallet: FC<ConnectWalletProps> = ({ navigation }) => {
-  const { isConnected, address } = useWalletConnectModal();
+const ConnectWallet: FC<ConnectWalletProps> = ({navigation}) => {
   const { setCurrentAddress } = useAppState();
-
+  const { address, isConnected } = useAccount();
   useEffect(() => {
     if (isConnected && address) {
       setCurrentAddress(address);
-      navigation.replace("SignInWithEth");
+      navigation.replace("Home")
     }
   }, [isConnected]);
 
@@ -28,7 +26,7 @@ const ConnectWallet: FC<ConnectWalletProps> = ({ navigation }) => {
       justifyContent="center"
       alignItems="center"
     >
-      <Instructions/>
+      <Instructions />
       {isConnected && address ? (
         <Address userAddress={address} />
       ) : (
@@ -41,17 +39,15 @@ const ConnectWallet: FC<ConnectWalletProps> = ({ navigation }) => {
 export default ConnectWallet;
 
 const ConnectWalletButton = () => {
-  const { open, provider } = useWalletConnectModal();
-
-  const navigation = useNavigation();
+  const { open } = useWeb3Modal();
   const connectWalletAsync = async () => {
     try {
+      Alert.alert("Connect Wallet", "Coming Soon");
       await open();
-      await provider?.connect({ namespaces: sessionParams.namespaces });
-      navigation.navigate("SignInWithEth");
+      console.log("cal");
     } catch (error) {
       console.log(error);
     }
   };
-  return <Button title="Connect Wallet" onPress={connectWalletAsync} />;
+  return <Button title="COnnect" onPress={connectWalletAsync} />;
 };
