@@ -36,7 +36,7 @@ const useEthereumTransactions = () => {
       }
 
       const result = await response.json();
-      setTransactions(result.result.transfers);
+      setTransactions(result.result.transfers.reverse());
     } catch (error) {
       if (error instanceof Error) {
         setError(error);

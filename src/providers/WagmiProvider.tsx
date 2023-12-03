@@ -9,7 +9,7 @@ import {
   defaultWagmiConfig,
 } from "@web3modal/wagmi-react-native";
 
-const projectId = "YOUR_PROJECT_ID_GOES_HERE";
+const projectId = "";
 
 const providerMetadata = {
   name: APP_NAME,

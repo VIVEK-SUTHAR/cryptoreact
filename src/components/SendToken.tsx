@@ -1,6 +1,12 @@
 import useDebounce from "hooks/useDebounce";
 import React from "react";
-import { Button, Linking, StyleSheet, TextInput } from "react-native";
+import {
+  Button,
+  Linking,
+  StyleSheet,
+  TextInput,
+  ToastAndroid,
+} from "react-native";
 import { Box, Text, theme } from "theme";
 import { parseEther } from "viem";
 import { polygonMumbai } from "viem/chains";
@@ -14,34 +20,39 @@ const SendToken = () => {
   const [to, setTo] = React.useState("");
   const [amount, setAmount] = React.useState("");
 
-  const [debouncedTo] = useDebounce(to, 500);
-  const [debouncedAmount] = useDebounce(amount, 500);
+  const debouncedTo = useDebounce(to, 200);
+  const debouncedAmount = useDebounce(amount, 200);
 
   const { config } = usePrepareSendTransaction({
     chainId: polygonMumbai.id,
     to: debouncedTo,
     value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
   });
-  const {
-    sendTransaction,
-    data,
-    error: sendTxError,
-  } = useSendTransaction(config);
-  const { isLoading, isSuccess, error } = useWaitForTransaction({
+  const { sendTransaction, data, error } = useSendTransaction({
+    ...config,
+    onError(error) {
+      ToastAndroid.show(error.message, ToastAndroid.SHORT);
+    },
+  });
+  const { isLoading, isSuccess, status } = useWaitForTransaction({
     chainId: polygonMumbai.id,
     hash: data?.hash,
   });
+
   const sendTx = async () => {
     try {
-      if (amount == "") {
-        return;
-      }
-      console.log("s");
       sendTransaction?.();
     } catch (error) {
     } finally {
     }
   };
+
+  React.useEffect(() => {
+    if (status === "success") {
+      setAmount("");
+      setTo("");
+    }
+  }, [status]);
 
   return (
     <Box
@@ -56,6 +67,7 @@ const SendToken = () => {
         onChange={(e) => {
           setAmount(e.nativeEvent.text);
         }}
+        value={amount}
         placeholder="Enter the amount (Matic)"
         placeholderTextColor={theme.colors.secondaryCardText}
         selectionColor={theme.colors.accent}
@@ -67,14 +79,19 @@ const SendToken = () => {
         onChange={(e) => {
           setTo(e.nativeEvent.text);
         }}
+        value={to}
         placeholder={`Enter the Recipient Address`}
         placeholderTextColor={theme.colors.secondaryCardText}
         selectionColor={theme.colors.accent}
         style={styles.inputContainer}
       />
-      <Button title={isLoading ? "Sending..." : "Send"} onPress={sendTx} />
+      <Button
+        title={isLoading ? "Confirming txn..." : "Send"}
+        onPress={sendTx}
+        disabled={!amount || !to || isLoading}
+      />
       {isSuccess ? (
-        <Text color="primaryCardText">
+        <Text color="primaryCardText" variant="body" my="s">
           Txn Confirmed, Track{" "}
           <Text
             color="accent"

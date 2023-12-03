@@ -11,6 +11,7 @@ export type RootStackParamList = {
   SignInWithEth: undefined;
   Home: undefined;
   Settings: undefined;
+  Debug: undefined;
 };
 export type ConnectWalletProps = NativeStackScreenProps<
   RootStackParamList,
@@ -21,6 +22,7 @@ export type SignInWithEthProps = NativeStackScreenProps<
   "SignInWithEth"
 >;
 export type HomeProps = NativeStackScreenProps<RootStackParamList, "Home">;
+export type DebugProps = NativeStackScreenProps<RootStackParamList, "Debug">;
 export type SettingsProp = NativeStackScreenProps<
   RootStackParamList,
   "Settings"

@@ -13,6 +13,7 @@ import Home from "screens/Home";
 import { TouchableOpacity } from "react-native";
 import SettingIcon from "icons/Settings";
 import Settings from "screens/common/Settings";
+import DebugScreen from "screens/Debug";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -65,6 +66,7 @@ const RootStackNavigator = () => {
             <Stack.Screen name="SignInWithEth" component={SignInWithEth} />
           </Stack.Group>
           <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Debug" component={DebugScreen} />
           <Stack.Screen
             name="Settings"
             component={Settings}

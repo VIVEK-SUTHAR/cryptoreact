@@ -1,12 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import React, { useState } from "react";
 import { ActivityIndicator, Alert, Button } from "react-native";
 import { Box, Text } from "theme";
+import { useAccount, useDisconnect } from "wagmi";
 
 const DisconnectButton = () => {
   const navigation = useNavigation();
-  const { provider, isConnected } = useWalletConnectModal();
+  const { disconnect } = useDisconnect();
+  const { isConnected } = useAccount();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   const disconnectWallet = () => {
     try {
@@ -25,13 +26,8 @@ const DisconnectButton = () => {
             text: "Disconnect",
             onPress: () => {
               setIsDisconnecting(true);
-              provider?.disconnect().then(() => {
-                setIsDisconnecting(false);
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "ConnectWallet" }],
-                });
-              });
+              disconnect();
+              navigation.navigate("ConnectWallet");
             },
             style: "destructive",
           },

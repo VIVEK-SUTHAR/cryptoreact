@@ -8,6 +8,7 @@ const UserBalance = () => {
   const { data, isLoading } = useBalance({
     address: currentAddress as `0x${string}`,
     chainId: 80001,
+    watch:true
   });
   return (
     <Box bg={"mainBackground"}>

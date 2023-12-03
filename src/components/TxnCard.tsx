@@ -7,7 +7,6 @@ import React from "react";
 import { useWindowDimensions } from "react-native";
 import { Box, Text } from "theme";
 import { Transaction } from "types/common";
-import formatEthAddress from "utils/formatEthAddress";
 import formatTransactionHash from "utils/formatTxnHash";
 
 type Props = {
@@ -15,6 +14,7 @@ type Props = {
 };
 
 const TxnCard = ({ transaction }: Props) => {
+  
   const { width } = useWindowDimensions();
   return (
     <Box
@@ -26,10 +26,10 @@ const TxnCard = ({ transaction }: Props) => {
       <Box flex={0.15}>{getTokenIcon(transaction.asset)}</Box>
       <Box flex={1}>
         <Text variant="body" color="primaryCardText">
-          Txn hash: {formatTransactionHash(transaction.hash)}
+          Txn hash:{formatTransactionHash(transaction.hash)}
         </Text>
         <Text color="secondaryCardText">
-          To:{formatEthAddress(transaction.to)}
+          {transaction.value} {transaction.asset}
         </Text>
       </Box>
     </Box>
