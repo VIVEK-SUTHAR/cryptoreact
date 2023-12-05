@@ -5,7 +5,7 @@ const Data = [
   {
     id: 1,
     instruction:
-      " Grab a projectId from Wallet Connect and paste it in I/src/components/WalletConnectModal.tsx at projectId",
+      "Grab the projectId from Wallet Connect and paste it in /src/providers/WagmiProvider.tsx at projectId",
   },
   {
     id: 2,

@@ -1,51 +1,58 @@
-import { useWalletConnectModal } from "@walletconnect/modal-react-native";
-import React, { useState } from "react";
-import { Alert, Button, StyleSheet, TextInput } from "react-native";
-import { Box, theme } from "theme";
-import formatEthAddress from "utils/formatEthAddress";
+import useDebounce from "hooks/useDebounce";
+import React from "react";
+import {
+  Button,
+  Linking,
+  StyleSheet,
+  TextInput,
+  ToastAndroid,
+} from "react-native";
+import { Box, Text, theme } from "theme";
+import { parseEther } from "viem";
+import { polygonMumbai } from "viem/chains";
+import {
+  usePrepareSendTransaction,
+  useSendTransaction,
+  useWaitForTransaction,
+} from "wagmi";
 
 const SendToken = () => {
-  const { address, provider } = useWalletConnectModal();
-  const [sendTxConfig, setSendTxConfig] = useState({
-    toAddress: address,
-    ammount: "",
-    isSending: false,
+  const [to, setTo] = React.useState("");
+  const [amount, setAmount] = React.useState("");
+
+  const debouncedTo = useDebounce(to, 200);
+  const debouncedAmount = useDebounce(amount, 200);
+
+  const { config } = usePrepareSendTransaction({
+    chainId: polygonMumbai.id,
+    to: debouncedTo,
+    value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
+  });
+  const { sendTransaction, data, error } = useSendTransaction({
+    ...config,
+    onError(error) {
+      ToastAndroid.show(error.message, ToastAndroid.SHORT);
+    },
+  });
+  const { isLoading, isSuccess, status } = useWaitForTransaction({
+    chainId: polygonMumbai.id,
+    hash: data?.hash,
   });
 
   const sendTx = async () => {
     try {
-      setSendTxConfig((p) => ({ ...p, isSending: true }));
-      if (sendTxConfig.ammount == "") {
-        return;
-      }
-      const amountRegex = /^[0-9.]+$/;
-      if (!amountRegex.test(sendTxConfig.ammount)) {
-        return;
-      }
-      const intValue = parseInt(sendTxConfig.ammount, 10);
-      const intGweiValue = intValue * 10 ** 18;
-      const hexAmount = "0x" + intGweiValue.toString(16);
-
-      const txnParams = [
-        {
-          from: address,
-          to: sendTxConfig.toAddress,
-          data: "0x",
-          value: hexAmount,
-        },
-      ];
-
-      const txResult = await provider?.request({
-        method: "eth_sendTransaction",
-        params: txnParams,
-      });
-      console.log(txResult);
-      Alert.alert("Sent !");
+      sendTransaction?.();
     } catch (error) {
     } finally {
-      setSendTxConfig((p) => ({ ...p, isSending: false }));
     }
   };
+
+  React.useEffect(() => {
+    if (status === "success") {
+      setAmount("");
+      setTo("");
+    }
+  }, [status]);
 
   return (
     <Box
@@ -58,11 +65,9 @@ const SendToken = () => {
       <TextInput
         inputMode="decimal"
         onChange={(e) => {
-          setSendTxConfig((prev) => ({
-            ...prev,
-            ammount: e.nativeEvent.text,
-          }));
+          setAmount(e.nativeEvent.text);
         }}
+        value={amount}
         placeholder="Enter the amount (Matic)"
         placeholderTextColor={theme.colors.secondaryCardText}
         selectionColor={theme.colors.accent}
@@ -72,21 +77,34 @@ const SendToken = () => {
       <TextInput
         inputMode="text"
         onChange={(e) => {
-          setSendTxConfig((prev) => ({
-            ...prev,
-            toAddress: e.nativeEvent.text,
-          }));
+          setTo(e.nativeEvent.text);
         }}
-        placeholder={`Enter the Recipient Address ${formatEthAddress(address)}`}
+        value={to}
+        placeholder={`Enter the Recipient Address`}
         placeholderTextColor={theme.colors.secondaryCardText}
         selectionColor={theme.colors.accent}
         style={styles.inputContainer}
       />
       <Button
-        title={sendTxConfig.isSending ? "Sending.." : "Send now"}
+        title={isLoading ? "Confirming txn..." : "Send"}
         onPress={sendTx}
-        disabled={!sendTxConfig.ammount || !sendTxConfig.toAddress}
+        disabled={!amount || !to || isLoading}
       />
+      {isSuccess ? (
+        <Text color="primaryCardText" variant="body" my="s">
+          Txn Confirmed, Track{" "}
+          <Text
+            color="accent"
+            onPress={() => {
+              Linking.openURL(
+                `https://mumbai.polygonscan.com/tx/${data?.hash}`
+              );
+            }}
+          >
+            Here
+          </Text>
+        </Text>
+      ) : null}
     </Box>
   );
 };

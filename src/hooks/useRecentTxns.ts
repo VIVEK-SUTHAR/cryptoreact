@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useAppState from "store/AppStore";
 import { Transaction } from "types/common";
 
-const TXN_TYPE = ["erc20"];
+const TXN_TYPE = ["erc20", "external", "erc1155"];
 
 const useEthereumTransactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -36,8 +36,7 @@ const useEthereumTransactions = () => {
       }
 
       const result = await response.json();
-      console.log(result);
-      setTransactions(result.result.transfers);
+      setTransactions(result.result.transfers.reverse());
     } catch (error) {
       if (error instanceof Error) {
         setError(error);

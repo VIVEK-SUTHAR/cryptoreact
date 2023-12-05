@@ -1,17 +1,13 @@
 import LatestBlock from "components/LatestBlock";
 import RecentTxns from "components/RecentTxns";
 import SendToken from "components/SendToken";
-import useUserBalance from "hooks/useUserBalance";
+import UserBalance from "components/UserBalance";
 import React from "react";
-import useAppState from "store/AppStore";
-import { Box, Text } from "theme";
+import { Box } from "theme";
 
 const Home = () => {
-  useUserBalance();
-
-  const { userBalance } = useAppState();
   return (
-    <Box flex={1} backgroundColor="mainBackground"  alignItems="center" p="s">
+    <Box flex={1} backgroundColor="mainBackground" alignItems="center" p="s">
       <Box
         p="m"
         flexDirection="row"
@@ -19,11 +15,13 @@ const Home = () => {
         alignItems="center"
         columnGap={"m"}
       >
-        <Text color="accent">Your Balance: {userBalance} Matic</Text>
+        <UserBalance />
         <LatestBlock />
       </Box>
       <SendToken />
+      <Box my="m">
       <RecentTxns />
+      </Box>
     </Box>
   );
 };

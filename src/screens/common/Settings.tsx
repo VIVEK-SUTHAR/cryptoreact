@@ -1,12 +1,12 @@
 import DisconnectButton from "components/UI/DisconnectButton";
 import { APP_DESC, APP_NAME } from "constants/index";
 import React, { FC } from "react";
-import { Switch } from "react-native";
+import { Switch, TouchableOpacity } from "react-native";
 import useThemeStore from "store/ThemeStore";
 import { Box, Text, theme } from "theme";
 import { SettingsProp } from "types/navigation";
 
-const Settings: FC<SettingsProp> = () => {
+const Settings: FC<SettingsProp> = ({ navigation }) => {
   const { activeTheme, toggleTheme } = useThemeStore();
 
   return (
@@ -32,6 +32,13 @@ const Settings: FC<SettingsProp> = () => {
             toggleTheme();
           }}
         />
+      </Box>
+      <Box backgroundColor="mainBackground" my="m">
+        <TouchableOpacity onPress={() => navigation.navigate("Debug")}>
+          <Text color="primaryCardText" variant="heading">
+            App Details
+          </Text>
+        </TouchableOpacity>
       </Box>
       <DisconnectButton />
     </Box>

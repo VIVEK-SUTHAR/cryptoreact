@@ -1,3 +1,4 @@
+import Dai from "icons/Dai";
 import Eth from "icons/Eth";
 import Matic from "icons/Matic";
 import Usdc from "icons/Usdc";
@@ -6,7 +7,6 @@ import React from "react";
 import { useWindowDimensions } from "react-native";
 import { Box, Text } from "theme";
 import { Transaction } from "types/common";
-import formatEthAddress from "utils/formatEthAddress";
 import formatTransactionHash from "utils/formatTxnHash";
 
 type Props = {
@@ -14,6 +14,7 @@ type Props = {
 };
 
 const TxnCard = ({ transaction }: Props) => {
+  
   const { width } = useWindowDimensions();
   return (
     <Box
@@ -25,10 +26,10 @@ const TxnCard = ({ transaction }: Props) => {
       <Box flex={0.15}>{getTokenIcon(transaction.asset)}</Box>
       <Box flex={1}>
         <Text variant="body" color="primaryCardText">
-          Txn hash: {formatTransactionHash(transaction.hash)}
+          Txn hash:{formatTransactionHash(transaction.hash)}
         </Text>
         <Text color="secondaryCardText">
-          To:{formatEthAddress(transaction.to)}
+          {transaction.value} {transaction.asset}
         </Text>
       </Box>
     </Box>
@@ -47,6 +48,9 @@ const getTokenIcon = (assetName: string) => {
       return <Eth height={34} width={34} />;
     case "USDT":
       return <Usdt height={34} width={34} />;
+    case "fDAI":
+    case "DAI":
+      return <Dai height={34} width={34} />;
   }
 };
 
