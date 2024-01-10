@@ -2,30 +2,32 @@
   "expo": {
     "name": "cryptoreact",
     "slug": "cryptoreact",
-    "scheme":"cryptoreact",
+    "scheme": "cryptoreact",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "jsEngine": "hermes",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.cryptoreact",
       "buildNumber": "1.0.0"
-    
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "versionCode": 1
+      "versionCode": 1,
+      "package": "com.cryptoreact"
     },
     "web": {
       "favicon": "./assets/favicon.png"
