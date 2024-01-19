@@ -38,9 +38,12 @@ const SendToken = () => {
     chainId: polygonMumbai.id,
     hash: data?.hash,
   });
-
+  console.log("error", error);
+  
   const sendTx = async () => {
     try {
+      console.log("Sending");
+      
       sendTransaction?.();
     } catch (error) {
     } finally {

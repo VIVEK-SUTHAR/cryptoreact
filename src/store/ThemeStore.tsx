@@ -7,7 +7,8 @@ type ThemeStore = {
 };
 
 const devicePreferredTheme = Appearance.getColorScheme() ?? "dark";
-console.log(devicePreferredTheme)
+
+
 const useThemeStore = create<ThemeStore>((set) => ({
   activeTheme: devicePreferredTheme,
   toggleTheme: () => {
